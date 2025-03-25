@@ -1,28 +1,26 @@
-const mongoose = require('mongoose');
+// models/usuarioModel.js
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const usuarioSchema = new mongoose.Schema({
+const Usuario = sequelize.define('Usuario', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     nome: {
-        type: String,
-        required: true
+        type: DataTypes.STRING(100),
+        allowNull: false
     },
     email: {
-        type: String,
-        required: true,
+        type: DataTypes.STRING(100),
+        allowNull: false,
         unique: true
     },
     senha: {
-        type: String,
-        required: true
+        type: DataTypes.STRING(255),
+        allowNull: false
     }
 });
 
-// Remover o campo __v da resposta JSON
-usuarioSchema.set('toJSON', {
-    transform: (doc, ret) => {
-        delete ret.__v;  // Remove o campo __v
-        return ret;
-    }
-});
-
-const Usuario = mongoose.model('Usuario', usuarioSchema);
 module.exports = Usuario;
