@@ -1,4 +1,6 @@
 const { Usuario } = require('../models/usuarioModel');
+const { QueryTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
 // Criar um novo usuário
 const cadastrarUsuario = async (req, res) => {
@@ -69,9 +71,24 @@ const deleteUsuarios = async (req, res) => {
     }
 };
 
+
+async function loginUser() {
+    // Aqui eu devo testar caso o login seja bem sucedido.
+
+    let sql = 'SELECT * FROM USUARIO WHERE email = :email and senha = :senha';
+
+    const result = await sequelize.query(sql, {
+        replacements: { email: 'lucas@teste.com', senha: '123' },
+        type: QueryTypes.SELECT,
+    });
+    console.log(result);
+    return;
+};
+
 module.exports = {
     cadastrarUsuario,
     listarUsuarios,
     putUsuarios,
-    deleteUsuarios
+    deleteUsuarios,
+    loginUser
 };
