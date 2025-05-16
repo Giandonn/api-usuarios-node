@@ -3,41 +3,41 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const Usuario = sequelize.define('Usuario', {
-    id: {
+    ID: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    nome: {
+    NOME: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    email: {
+    EMAIL: {
         type: DataTypes.STRING(100),
         allowNull: false,
         unique: true
     },
-    senha: {
+    SENHA: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    estado: {
+    ESTADO: {
         type: DataTypes.STRING(2),
         allowNull: false
     },
-    cidade: {
+    CIDADE: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    rua: {
+    RUA: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    numero: {
+    NUMERO: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    dataNascimento: {
+    DATA_NASCIMENTO: {
         type: DataTypes.DATEONLY, // DATE no MySQL = DATEONLY no Sequelize
         allowNull: false
     }

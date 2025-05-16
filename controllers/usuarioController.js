@@ -2,7 +2,6 @@ const { Usuario } = require('../models/usuarioModel');
 const { QueryTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-// Criar um novo usuário
 const cadastrarUsuario = async (req, res) => {
     const { nome, email, senha } = req.body;
 
@@ -13,7 +12,6 @@ const cadastrarUsuario = async (req, res) => {
             return res.status(400).json({ mensagem: 'Já existe um usuário com este email!' });
         }
 
-        // Criar o usuário
         const novoUsuario = await Usuario.create({ nome, email, senha });
 
         res.status(201).json(novoUsuario);
@@ -25,7 +23,6 @@ const cadastrarUsuario = async (req, res) => {
 // Listar usuários
 const listarUsuarios = async (req, res) => {
     try {
-        // Encontrar todos os usuários
         const usuarios = await Usuario.findAll();
         res.status(200).json(usuarios);
     } catch (err) {
@@ -34,7 +31,6 @@ const listarUsuarios = async (req, res) => {
     }
 };
 
-// Atualizar usuário
 const putUsuarios = async (req, res) => {
     const { id } = req.params;
     const { nome, email, senha } = req.body;
@@ -45,7 +41,6 @@ const putUsuarios = async (req, res) => {
             return res.status(404).json({ mensagem: 'Usuário não encontrado!' });
         }
 
-        // Atualiza os dados do usuário
         await usuario.update({ nome, email, senha });
         res.status(200).json(usuario);
     } catch (err) {
@@ -53,7 +48,6 @@ const putUsuarios = async (req, res) => {
     }
 };
 
-// Excluir usuário
 const deleteUsuarios = async (req, res) => {
     const { id } = req.params;
 
@@ -63,7 +57,6 @@ const deleteUsuarios = async (req, res) => {
             return res.status(404).json({ mensagem: "Usuário não encontrado!" });
         }
 
-        // Excluir o usuário
         await usuario.destroy();
         res.status(200).json({ mensagem: 'Usuário excluído com sucesso!' });
     } catch (err) {
@@ -71,18 +64,27 @@ const deleteUsuarios = async (req, res) => {
     }
 };
 
-
 async function loginUser() {
-    // Aqui eu devo testar caso o login seja bem sucedido.
+    try {
+        let sql = 'SELECT * FROM USUARIO WHERE email = :email and senha = :senha';
 
-    let sql = 'SELECT * FROM USUARIO WHERE email = :email and senha = :senha';
+        const result = await sequelize.query(sql, {
+            replacements: { email: 'lucas@teste.com', senha: '123' },
+            type: QueryTypes.SELECT,
+        });
 
-    const result = await sequelize.query(sql, {
-        replacements: { email: 'lucas@teste.com', senha: '123' },
-        type: QueryTypes.SELECT,
-    });
-    console.log(result);
-    return;
+        if (result) {
+            // Aqui eu confirmo o login do usuario
+            // Aqui tem q testar o retorno para validar depois
+            console.log("Usuário logado com sucesso.");
+            console.log("Dados de retorno:", result);
+            return;
+        }
+
+    } catch (e) {
+        console.error(e);
+        return;
+    }
 };
 
 module.exports = {

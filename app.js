@@ -3,11 +3,10 @@ const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const usuarioController = require('./controllers/usuarioController');
+const servicoController = require('./controllers/servicoController');
 
-// Inicializa o app do Express
 const app = express();
 
-// Middleware para parsear o corpo das requisições em JSON
 app.use(bodyParser.json());
 
 // Configuração do Sequelize (conexão com o MySQL)
@@ -19,10 +18,9 @@ const sequelize = new Sequelize('PROJETO_DATABASE', 'root', '', {
 sequelize.authenticate()
     .then(() => {
         console.log('Conectado ao MySQL');
-        // Sincroniza as tabelas com o banco de dados
         sequelize.sync()
             .then(() => {
-                console.log('Tabelas sincronizadas');
+                // console.log('Tabelas sincronizadas');
             })
             .catch(err => console.log('Erro ao sincronizar as tabelas:', err));
     })
@@ -31,7 +29,9 @@ sequelize.authenticate()
 app.use(usuarioRoutes);
 
 // Chamando direto aqui para teste
-usuarioController.loginUser();
+// usuarioController.loginUser();
+
+servicoController.cadastrarServicoDireto();
 
 const port = 3000;
 app.listen(port, () => {
