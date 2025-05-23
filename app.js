@@ -19,9 +19,14 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Configuração do Sequelize
-const sequelize = new Sequelize('PROJETO_DATABASE', 'root', '', {
-    host: 'localhost',
-    dialect: 'mysql',
+// const sequelize = new Sequelize('PROJETO_DATABASE', 'root', '', {
+//     host: 'localhost',
+//     dialect: 'mysql',
+// });
+
+const sequelize = new Sequelize('projeto_database', 'api_user', 'senhaforte123', {
+  host: 'localhost',
+  dialect: 'mysql'
 });
 
 sequelize.authenticate()
