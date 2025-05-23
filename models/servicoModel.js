@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Usuario = require('./usuarioModel');
 
 const Servico = sequelize.define('Servico', {
     sequencia: {
@@ -29,5 +30,9 @@ const Servico = sequelize.define('Servico', {
     tableName: 'SERVICO',
     timestamps: false
 });
+
+// Associações
+Servico.belongsTo(Usuario, { as: 'criador', foreignKey: 'usuario_id' });
+Servico.belongsTo(Usuario, { as: 'responsavel', foreignKey: 'atribuiu_para_usuario_id' });
 
 module.exports = Servico;

@@ -1,15 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
+const cors = require('cors');
+
 const usuarioRoutes = require('./routes/usuarioRoutes');
-const usuarioController = require('./controllers/usuarioController');
-const servicoController = require('./controllers/servicoController');
+const servicoRoutes = require('./routes/servicoRoutes');
 
 const app = express();
 
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
 app.use(bodyParser.json());
 
-// Configuração do Sequelize (conexão com o MySQL)
+// Configuração do Sequelize
 const sequelize = new Sequelize('PROJETO_DATABASE', 'root', '', {
     host: 'localhost',
     dialect: 'mysql',
@@ -17,23 +26,20 @@ const sequelize = new Sequelize('PROJETO_DATABASE', 'root', '', {
 
 sequelize.authenticate()
     .then(() => {
-        console.log('Conectado ao MySQL');
-        sequelize.sync()
-            .then(() => {
-                // console.log('Tabelas sincronizadas');
-            })
-            .catch(err => console.log('Erro ao sincronizar as tabelas:', err));
+        console.log('✅ Conectado ao MySQL');
+        return sequelize.sync();
     })
-    .catch(err => console.log('Erro ao conectar ao MySQL:', err));
+    .then(() => {
+        console.log('✅ Tabelas sincronizadas');
+    })
+    .catch(err => console.error('❌ Erro:', err));
 
+// Rotas
 app.use(usuarioRoutes);
+app.use(servicoRoutes);
 
-// Chamando direto aqui para teste
-// usuarioController.loginUser();
-
-servicoController.cadastrarServicoDireto();
-
+// Porta
 const port = 3000;
 app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
+    console.log(`🚀 Servidor rodando em http://localhost:${port}`);
 });

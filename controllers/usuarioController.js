@@ -74,8 +74,8 @@ async function loginUser() {
         });
 
         if (result) {
-            // Aqui eu confirmo o login do usuario
-            // Aqui tem q testar o retorno para validar depois
+            // Se der sucesso chamar a funcao para montar a tela principal
+            // utilizando a cidade para puxar os serviços especificos da localidade
             console.log("Usuário logado com sucesso.");
             console.log("Dados de retorno:", result);
             return;
