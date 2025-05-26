@@ -2,16 +2,16 @@ const Servico = require('../models/servicoModel');
 const Usuario = require('../models/usuarioModel');
 
 const postServico = async (req, res) => {
-    const { usuario_id, descricao } = req.body;
+    const { usuarioId, descricao } = req.body;
 
     try {
-        const usuario = await Usuario.findByPk(usuario_id);
+        const usuario = await Usuario.findByPk(usuarioId);
         if (!usuario) {
             return res.status(404).json({ mensagem: 'Usuário não encontrado!' });
         }
 
         const novoServico = await Servico.create({
-            usuario_id,
+            usuario_id: usuarioId,
             descricao,
             status: false
         });
