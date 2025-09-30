@@ -34,7 +34,6 @@ function saveBpmAnormal(batimentos, status) {
             type: QueryTypes.INSERT,
         }
     );
-
 }
 
 cron.schedule('*/1 * * * * *', () => {
@@ -60,6 +59,7 @@ cron.schedule('*/1 * * * * *', () => {
 
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const servicoRoutes = require('./routes/servicoRoutes');
+const batimentosRoutes = require('./routes/batimentosRoutes');
 
 const app = express();
 
@@ -96,6 +96,7 @@ sequelize.authenticate()
 
 app.use(usuarioRoutes);
 app.use(servicoRoutes);
+app.use(batimentosRoutes);
 
 const port = 3000;
 app.listen(port, () => {
