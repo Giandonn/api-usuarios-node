@@ -28,8 +28,6 @@ const cadastrarUsuario = async (req, res) => {
     }
 };
 
-
-// Listar usuários
 const listarUsuarios = async (req, res) => {
     try {
         const usuarios = await Usuario.findAll();
@@ -74,42 +72,18 @@ const deleteUsuarios = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, senha } = req.body;
+    const { email, senha } = req.body;
 
-  try {
-    const usuario = await Usuario.findOne({ where: { EMAIL: email, SENHA: senha } });
-    if (!usuario) {
-      return res.status(401).json({ mensagem: "Email ou senha inválidos" });
+    try {
+        const usuario = await Usuario.findOne({ where: { EMAIL: email, SENHA: senha } });
+        if (!usuario) {
+            return res.status(401).json({ mensagem: "Email ou senha inválidos" });
+        }
+        res.status(200).json({ mensagem: "Login realizado com sucesso", usuario: { id: usuario.ID, nome: usuario.NOME, email: usuario.EMAIL } });
+    } catch (err) {
+        res.status(500).json({ mensagem: "Erro no servidor", erro: err.message });
     }
-    // Login ok, pode mandar dados do usuário, token, etc.
-    res.status(200).json({ mensagem: "Login realizado com sucesso", usuario: { id: usuario.ID, nome: usuario.NOME, email: usuario.EMAIL } });
-  } catch (err) {
-    res.status(500).json({ mensagem: "Erro no servidor", erro: err.message });
-  }
 };
-
-// async function loginUser() {
-//     try {
-//         let sql = 'SELECT * FROM USUARIO WHERE email = :email and senha = :senha';
-
-//         const result = await sequelize.query(sql, {
-//             replacements: { email: 'lucas@teste.com', senha: '123' },
-//             type: QueryTypes.SELECT,
-//         });
-
-//         if (result) {
-//             // Se der sucesso chamar a funcao para montar a tela principal
-//             // utilizando a cidade para puxar os serviços especificos da localidade
-//             console.log("Usuário logado com sucesso.");
-//             console.log("Dados de retorno:", result);
-//             return;
-//         }
-
-//     } catch (e) {
-//         console.error(e);
-//         return;
-//     }
-// };
 
 module.exports = {
     cadastrarUsuario,
