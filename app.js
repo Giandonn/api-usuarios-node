@@ -36,26 +36,26 @@ function saveBpmAnormal(batimentos, status) {
     );
 }
 
-cron.schedule('*/1 * * * * *', () => {
-    try {
-        const randomNumber = getRandomInt(50, 120);
-        let status = null;
+// cron.schedule('*/1 * * * * *', () => {
+//     try {
+const randomNumber = getRandomInt(50, 120);
+//         let status = null;
 
-        if (randomNumber > 100) {
-            status = "ACIMA"
-        } else if (randomNumber < 60) {
-            status = "ABAIXO";
-        }
+//         if (randomNumber > 100) {
+//             status = "ACIMA"
+//         } else if (randomNumber < 60) {
+//             status = "ABAIXO";
+//         }
 
-        if (randomNumber > 100 || randomNumber < 60) {
-            saveBpmAnormal(randomNumber, status);
-        }
-    } catch (e) {
-        console.log('Erro: ', e);
-        return;
-    }
+//         if (randomNumber > 100 || randomNumber < 60) {
+//             saveBpmAnormal(randomNumber, status);
+//         }
+//     } catch (e) {
+//         console.log('Erro: ', e);
+//         return;
+//     }
 
-});
+// });
 
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const servicoRoutes = require('./routes/servicoRoutes');
